@@ -1,0 +1,23 @@
+{
+  "length1": "2",
+  "area1": "4",
+  "elasticity1": "1",
+  "voltage1": "1",
+  "length2": "3",
+  "area2": "2",
+  "elasticity2": "1",
+  "voltage2": "1",
+  "length3": "3",
+  "area3": "3",
+  "elasticity3": "1",
+  "voltage3": "1",
+  "q1": "",
+  "q2": "1",
+  "q3": "1",
+  "qL1": "",
+  "qL2": "3",
+  "qL3": "-3",
+  "qL4": "",
+  "left1": "on",
+  "right1": "on"
+}

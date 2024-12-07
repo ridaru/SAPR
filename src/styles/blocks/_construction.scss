@@ -1,0 +1,112 @@
+.construction {
+    display: flex;
+    flex-direction: column;
+    row-gap: 40px;
+    padding-top: 40px;
+
+    &__title {
+        margin-bottom: 5px;
+    }
+
+    &__subtitle {
+        font-family: var(--font-family-accent);
+        color: var(--color-dark-grey);
+
+    }
+
+    &__loads {
+        display: flex;
+        column-gap: 40px;
+        width: 100%;
+    }
+
+    &__button-container {
+        display: flex;
+        flex-direction: row;
+        column-gap: 10px;
+        align-items: start;
+    }
+
+    &__button {
+        @include reset-button;
+
+        background-color: var(--color-white);
+        font-family: var(--font-family-base);
+        
+        color: var(--color-purple);
+        padding: 10px;
+        border: var(--border-button);
+
+        margin-bottom: 15px;
+        
+
+        &:hover {
+            background-color: var(--color-purple);
+            color: var(--color-white);
+            transition-duration: var(--transition-duration);
+        }
+
+        &:focus-visible {
+            outline: none;
+            background-color: var(--color-purple);
+            color: var(--color-white);
+        }  
+    }
+
+    &__prop {
+        display: flex;
+        flex-direction: row;
+        column-gap: 10px;
+        margin-bottom: 15px;
+    }
+
+    &__label {
+        display: flex;
+        align-items: center;
+        column-gap: 8px;
+        font-family: var(--font-family-base);
+        cursor: pointer;
+        position: relative;
+    }
+    
+    &__radio {
+        display: none;
+    }
+
+    &__radio:checked + &__span {
+        background-color: var(--color-purple);
+        border-color: var(--color-purple); 
+    
+        &::after {
+            opacity: 1;
+        }
+    }
+    
+    &__span {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 1px solid var(--color-purple); // Цвет обводки по умолчанию
+        border-radius: none;
+        background-color: var(--color-white); // Фон по умолчанию
+        transition-duration: var(--transition-duration);
+        position: relative;
+
+        // Галочка при активном состоянии
+        &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 6px;
+        height: 10px;
+        border: solid var(--color-white); // Цвет галочки
+        border-width: 0 2px 2px 0;
+        transform: translate(-50%, -50%) rotate(45deg); // Центрирование и наклон галочки
+        opacity: 0;
+        transition-duration: var(--transition-duration);
+        }
+    }
+
+    
+}

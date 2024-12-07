@@ -1,0 +1,10 @@
+.header {
+    width: 100%;
+    background-color: var(--color-white);
+    border: var(--border);
+    padding-block: 20px;
+    
+    &__title {
+        color: var(--color-dark);
+    }
+}

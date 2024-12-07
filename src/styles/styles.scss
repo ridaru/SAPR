@@ -1,0 +1,15 @@
+@import 'normalize', 
+        'fonts', 
+        'mixins', 
+        'media', 
+        'variables', 
+        'utils', 
+        'globals';
+
+@import 'blocks/header',
+        'blocks/scheme',
+        'blocks/bars-table',
+        'blocks/construction',
+        'blocks/footer',
+        'blocks/charts',
+        'blocks/results-table';

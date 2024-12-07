@@ -1,0 +1,14 @@
+.footer {
+    display: flex;
+    padding-block: 40px;
+    background-color: var(--color-grey);
+
+    &__link {
+        display: flex;
+        align-items: center;
+        column-gap: 5px;
+        &:hover {
+            color: var(--color-purple);
+        }
+    }
+}

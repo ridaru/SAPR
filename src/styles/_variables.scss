@@ -1,0 +1,23 @@
+:root {
+    --color-white: #FFFFFF;
+    --color-grey: #e1e3e4;
+    --color-dark-grey: #85859B;
+    --color-dark: #4C5866;
+    --color-purple: #7875FE;
+    
+    --container-width: 1180px;
+    --container-padding-x: 16px;
+
+    --section-padding-y: 100px;
+
+    --font-family-base: 'Roboto', sans-serif;
+
+    --transition-duration: 0.2s;
+
+    --border: 1px solid var(--color-grey);
+    --border-button: 1px solid var(--color-purple);
+    --border-radius: 7px;
+    --button-height: 44px;
+
+    --input-height: 35px;
+}

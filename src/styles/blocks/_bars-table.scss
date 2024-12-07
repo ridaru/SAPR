@@ -1,0 +1,19 @@
+.bars-table {
+    margin-bottom: 15px;
+    &__title {
+        font-family: var(--font-family-base);
+        font-weight: 400;
+    }
+
+    &__input {
+        height: var(--input-height);
+        border: var(--border);
+        color: var(--color-dark);
+        padding-inline: 7px;
+
+        &:focus-visible {
+            outline:none;
+            border: 1px solid var(--color-purple);
+        }
+    }
+}
