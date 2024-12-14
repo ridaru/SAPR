@@ -1,0 +1,36 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Запускать при пуше в ветку main (можно изменить)
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Проверяем код из репозитория
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Устанавливаем Node.js
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18 # Укажите нужную версию Node.js
+
+    # Устанавливаем зависимости
+    - name: Install dependencies
+      run: npm install
+
+    # Собираем проект
+    - name: Build project
+      run: npm run build
+
+    # Деплоим содержимое dist в ветку gh-pages
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v4
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./dist # Укажите папку с билдом
