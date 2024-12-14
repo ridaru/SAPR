@@ -1,37 +1,40 @@
-name: Deploy to GitHub Pages
+# название
+name: Project test & build
 
+# целевые события для запуска
+# в данном случае это push и pull_request, в ветку main
 on:
   push:
-    branches:
-      - main # Запуск при изменениях в основной ветке
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
+# выполняемые действия
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
+    
+    # запускаются по шагам
+    # name - название шага
+    # в github actions будет выводиться название шага, и процессы
     steps:
-      # Проверяем репозиторий
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      # Устанавливаем Node.js
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2.3.1
         with:
-          node-version: 18 # Укажите версию Node.js
+          persist-credentials: false
 
-      # Устанавливаем зависимости
-      - name: Install dependencies
+      - name: Install 🔧
         run: npm install
 
-      # Собираем проект
-      - name: Build project
+      - name: Build 👷
         run: npm run build
 
-      # Создаём ветку gh-pages и деплоим содержимое dist
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist # Папка, которую нужно опубликовать
-          force_orphan: true # Создаёт новую ветку, если её нет
+          # в значение GITHUB_TOKEN помещается ссылка на ваш секрет в репозитории
+          # в данном случае его название KEY
+          GITHUB_TOKEN: ${{ secrets.KEY }}
+          BRANCH: gh-pages
+          FOLDER: public
+          CLEAN: true
