@@ -3,34 +3,35 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main # Запускать при пуше в ветку main (можно изменить)
+      - main # Запуск при изменениях в основной ветке
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    # Проверяем код из репозитория
-    - name: Checkout code
-      uses: actions/checkout@v3
+      # Проверяем репозиторий
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    # Устанавливаем Node.js
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18 # Укажите нужную версию Node.js
+      # Устанавливаем Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18 # Укажите версию Node.js
 
-    # Устанавливаем зависимости
-    - name: Install dependencies
-      run: npm install
+      # Устанавливаем зависимости
+      - name: Install dependencies
+        run: npm install
 
-    # Собираем проект
-    - name: Build project
-      run: npm run build
+      # Собираем проект
+      - name: Build project
+        run: npm run build
 
-    # Деплоим содержимое dist в ветку gh-pages
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v4
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./dist # Укажите папку с билдом
+      # Создаём ветку gh-pages и деплоим содержимое dist
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist # Папка, которую нужно опубликовать
+          force_orphan: true # Создаёт новую ветку, если её нет
