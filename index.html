@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="./styles/styles.css" />
+    <title>Проект САПР</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.1.1/math.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.0/full/pyodide.js"></script>
+
+    <script type="module" crossorigin src="/assets/index-CrSPe6YK.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-D9EFUbvt.css">
+  </head>
+  <body>
+    <header class="header">
+      <div class="header__container container">
+        <h1 class="header__title">Проект САПР</h1>
+      </div>
+      <!-- тут будет навигация по сайту -->
+    </header>
+    <main>
+      <section class="construction container section">
+        <form class="construction__menu">
+          <div class="construction__bars">
+            <button
+              class="construction__button button"
+              type="button"
+              id="upload-button"
+            >
+              Загрузить файл
+            </button>
+            <input
+              type="file"
+              id="file-input"
+              accept=".json"
+              style="display: none"
+            />
+
+            <h2 class="construction__title">Стержни</h2>
+            <table class="bars-table">
+              <thead class="bars-table__head">
+                <tr class="bars-table__row" data-bars-header>
+                  <th class="bars-table__title"></th>
+                  <th class="bars-table__title">L, м</th>
+                  <th class="bars-table__title">A, м²</th>
+                  <th class="bars-table__title">E, Па</th>
+                  <th class="bars-table__title">[σ], Па</th>
+                </tr>
+              </thead>
+              <tbody class="bars-table__body" data-bars-table></tbody>
+            </table>
+            <div class="construction__button-container">
+              <button
+                class="construction__button button"
+                type="button"
+                data-addbar-button
+              >
+                Добавить
+              </button>
+              <button
+                class="construction__button button"
+                type="button"
+                data-delete-bar-button
+              >
+                Удалить
+              </button>
+            </div>
+          </div>
+          <h2 class="construction__title" data-bars-header>Нагрузки</h2>
+          <div class="construction__loads">
+            <div class="construction__linear-loads">
+              <h3 class="construction__loads-title" data-bars-header>
+                Распределенные
+              </h3>
+              <p class="construction__subtitle" data-bars-header>
+                *Если вы не хотите добавлять нагрузку - оставьте поле пустым
+              </p>
+              <table class="bars-table">
+                <thead class="bars-table__head">
+                  <tr class="bars-table__row" data-bars-header>
+                    <th class="bars-table__title"></th>
+                    <th class="bars-table__title">q</th>
+                  </tr>
+                </thead>
+                <tbody class="bars-table__body" data-linear-table></tbody>
+              </table>
+            </div>
+            <div class="construction__point-loads">
+              <h3 class="construction__loads-title" data-bars-header>
+                Сосредоточенные
+              </h3>
+              <p class="construction__subtitle" data-bars-header>
+                *Если вы не хотите добавлять нагрузку - оставьте поле пустым
+              </p>
+              <table class="bars-table">
+                <thead class="bars-table__head">
+                  <tr class="bars-table__row" data-bars-header>
+                    <th class="bars-table__title"></th>
+                    <th class="bars-table__title">F, qL</th>
+                  </tr>
+                </thead>
+                <tbody class="bars-table__body" data-point-table></tbody>
+              </table>
+            </div>
+          </div>
+          <h2 class="construction__title">Опоры</h2>
+          <div class="construction__prop">
+            <label class="construction__label" for="left">
+              <input
+                class="construction__radio"
+                id="left"
+                name="prop"
+                type="checkbox"
+                checked
+                data-radio
+              />
+              <span class="construction__span"></span> Слева
+            </label>
+
+            <label class="construction__label" for="right">
+              <input
+                class="construction__radio"
+                id="right"
+                name="prop"
+                type="checkbox"
+                data-radio
+              />
+              <span class="construction__span"></span> Справа
+            </label>
+          </div>
+          <div class="construction__button-container">
+            <button
+              class="construction__button button"
+              type="button"
+              data-button-createConstr
+            >
+              Построить конструкцию
+            </button>
+            <button
+              class="construction__button button"
+              type="button"
+              id="save-button"
+            >
+              Сохранить проект
+            </button>
+            <button
+              class="construction__button button"
+              type="button"
+              id="result-save-button"
+            >
+              Сохранить результаты
+            </button>
+          </div>
+        </form>
+        <div class="scheme" data-scheme>
+          <ul class="scheme__list" data-scheme-list>
+            <!--                     
+                    <li class="scheme__item">
+                        <div class="scheme__support">
+                        </div>
+                    </li>
+                    <li class="scheme__item">
+                        <div class="scheme__length-line"></div>
+                        <div class="scheme__point-load">
+                            <span class="scheme__point-load-value">2</span>
+                        </div>
+                        <div class="scheme__load">
+                            <span class="scheme__linear-load-value">2</span>
+                            
+                        </div>
+                    </li>
+                    <li class="scheme__item">
+                        <span class="scheme__elasticity-value">E</span>
+                        <span class="scheme__area-value">A</span>
+                        <span class="scheme__length-value">L</span>
+                        <div class="scheme__length-line"></div>
+                        <div class="scheme__length-arrow"></div>
+                        <div class="scheme__length-arrow scheme__length-arrow--right"></div>
+                        <div class="scheme__support scheme__support--right"></div>
+                    </li> -->
+          </ul>
+        </div>
+        <div class="chartContainer">
+          <canvas id="nxChart" width="400" height="400"></canvas>
+          <canvas id="uxChart" width="400" height="400"></canvas>
+          <canvas id="sgxChart" width="400" height="400"></canvas>
+        </div>
+        <table class="results-table">
+          <tbody class="results-table__body" data-results-table>
+            <tr class="results-table__row" data-nx></tr>
+            <tr class="results-table__row" data-ux></tr>
+            <tr class="results-table__row" data-sgx></tr>
+          </tbody>
+        </table>
+      </section>
+      <section class="footer">
+        <div class="footer__body container">
+          <!-- <a class="footer__link" href="https://t.me/ridaruuu">
+                    <img src="./public/images/icons/telegram.svg" alt="telegram" width="36" height="36" loading="lazy">
+                    </img>
+                    @ridaruuu
+                </a> -->
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
