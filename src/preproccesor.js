@@ -10,7 +10,6 @@ const barsTableElem = document.querySelector("[data-bars-table]");
 const linearTableElem = document.querySelector("[data-linear-table]");
 const pointTableElem = document.querySelector("[data-point-table]");
 
-// TODO: Порефакторить
 let RESULT_NX;
 let RESULT_UX;
 let RESULT_SGX;
@@ -53,6 +52,7 @@ function createContentCell(inputAttributes, className, parent) {
   return contentCell;
 }
 
+// Добавление стержня
 function addBar() {
   barsHeaderElems.forEach((elem) => {
     elem.hidden = false;
@@ -63,6 +63,7 @@ function addBar() {
   const barRowElem = createRow("bars-table__row", barsTableElem);
   createTitleCell(`Стержень ${index}`, "bars-table__title", barRowElem);
 
+  // Атрибуты input
   const barAttributes = [
     { id: "length", type: "number", required: "" },
     { id: "area", type: "number", required: "" },
@@ -98,6 +99,7 @@ function createPointRow(index, id, parent, isRequired) {
   createContentCell(pointAttributes, "bars-table__content", pointRowElem);
 }
 
+// Удаление стержня
 function deleteBar() {
   if (barsTableElem.children.length > 0) {
     barsTableElem.removeChild(barsTableElem.lastElementChild);
@@ -121,9 +123,11 @@ function deleteBar() {
 
 const schemeBarListElem = document.querySelector("[data-scheme-list]");
 
+// Построение конструкции
 function createConstruction() {
   schemeBarListElem.innerHTML = "";
 
+  // Распределенная нагрузка
   function addLinearLoad(linearLoadInputElem, listOfLoads, schemeBarElem) {
     const linearLoadValue = +linearLoadInputElem.value;
 
@@ -148,6 +152,7 @@ function createConstruction() {
     listOfLoads.push(linearLoadValue);
   }
 
+  // Сосредоточенная нагрузка
   function addPointLoad(pointLoadInputElem, schemeBarElem, powers, i) {
     const pointLoadValue = +pointLoadInputElem.value;
 
@@ -180,6 +185,7 @@ function createConstruction() {
     }
   }
 
+  // Следующая сосредоточенная нагрузка [i+1]
   function addNextPointLoad(pointLoadNextInputElem, schemeBarElem, powers, i) {
     const pointLoadNextValue = +pointLoadNextInputElem.value;
 
@@ -210,17 +216,18 @@ function createConstruction() {
   if (barsTableElem.children.length !== 0) {
     let schemeBarElemMaxHeight = 70;
 
-    let listOfLength = []; //[L-№1, L-№2, ..., L-№ N]
-    let listOfWidth = []; //[A-№1, A-№2, ..., A-№ N]
-    let listOfYoungModulus = []; //[E-№1, E-№2, ..., E-№ N]
+    let listOfLength = [];
+    let listOfWidth = []; 
+    let listOfYoungModulus = []; 
     let listOfSigma = [];
-    let listOfLoads = []; //[q-№1, q-№2, ..., q-№ N]
-    let powers = {}; //{'1': F-№1, '2': F-№2, ..., 'N': F-№ N, 'N+1': F-№ N+1}
+    let listOfLoads = []; 
+    let powers = {}; 
     let leftSealing = false;
     let rightSealing = false;
     let valueX = -1;
     let rodNumber = 1;
 
+    //Цикл для работы с текущим стержнем
     for (let i = 0; i < barsTableElem.children.length; i++) {
       const schemeBarElem = document.createElement("li");
       schemeBarElem.className = "scheme__item";
@@ -341,6 +348,7 @@ function createConstruction() {
     const schemeBarListElemRect = schemeBarListElem.getBoundingClientRect();
     const schemeBarListElemHeight = schemeBarListElemRect.height;
 
+    // Графичное отображение длины стержня
     document.querySelectorAll(".scheme__item").forEach((el) => {
       const top =
         schemeBarListElemRect.height / 2 -
@@ -352,6 +360,7 @@ function createConstruction() {
       line.style.top = `${height}px`;
     });
 
+    // Проверка состояния чекбоксов
     checkboxElements.forEach((checkbox) => {
       if (checkbox.checked) {
         if (checkbox.id == "left") {
@@ -371,6 +380,7 @@ function createConstruction() {
       }
     });
 
+    // Вызов процессора и получение результатов через геттер
     runPythonScript(
       listOfLength,
       listOfWidth,
@@ -400,6 +410,7 @@ function createConstruction() {
         listOfWidth,
       });
 
+      // Таблица результатов
       const nxTd = document.querySelector("[data-nx]");
       const uxTd = document.querySelector("[data-ux]");
       const sgxTd = document.querySelector("[data-sgx]");
@@ -431,6 +442,7 @@ uploadButton.addEventListener("click", () => {
   fileInput.click();
 });
 
+// Чтение файла проекта и обновление интерфейса
 fileInput.addEventListener("change", (event) => {
   const file = event.target.files[0];
   if (file) {
@@ -499,6 +511,7 @@ fileInput.addEventListener("change", (event) => {
   }
 });
 
+// Сохранение проекта в файл
 document.addEventListener("DOMContentLoaded", () => {
   const saveButton = document.getElementById("save-button");
   const resultSaveButton = document.getElementById("result-save-button");
@@ -541,9 +554,10 @@ document.addEventListener("DOMContentLoaded", () => {
     URL.revokeObjectURL(link.href);
   });
 
+  // Сохранение результатов расчета в файл
   resultSaveButton.addEventListener("click", () => {
     let data = [
-      ["NX", "UX", "SGX"], // Заголовки
+      ["NX", "UX", "SGX"],
     ];
 
     const length = Math.max(
@@ -560,18 +574,16 @@ document.addEventListener("DOMContentLoaded", () => {
       ];
     }
 
-    // Создаем Workbook и Worksheet
-    const workbook = XLSX.utils.book_new(); // Создаем новую книгу
-    const worksheet = XLSX.utils.aoa_to_sheet(data); // Преобразуем массив данных в лист
+    const workbook = XLSX.utils.book_new(); 
+    const worksheet = XLSX.utils.aoa_to_sheet(data); 
 
-    // Добавляем лист в книгу
     XLSX.utils.book_append_sheet(workbook, worksheet, "Лист1");
 
-    // Генерация файла и загрузка
     XLSX.writeFile(workbook, "result.xlsx");
   });
 });
 
+// Минимум 1 опора
 document.addEventListener("DOMContentLoaded", () => {
   const checkboxes = document.querySelectorAll("[data-radio]");
 

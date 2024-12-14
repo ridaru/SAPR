@@ -162,9 +162,6 @@ def ux_equation(input_list_of_length: list, input_list_of_width: list, input_lis
             value_n = round(value_n[0], 3)
 
             answer_list.append(value_n)
-            '''
-            answer_list = [ux_value_in_x_in_1_rod, ux_value_in_x_in_2_rod, ..., ux_value_in_x_in_N_rod]
-            '''
         else:
             value_1_begin = 0
             value_4_begin = 1
@@ -179,10 +176,6 @@ def ux_equation(input_list_of_length: list, input_list_of_width: list, input_lis
             value_n_end = round(value_n_end[0], 3)
 
             answer_list.append([value_n_begin, value_n_end])
-            '''
-            nx_list is two-dimensional array:
-            nx_list = [[ux_begin_1_rod, ux_end_1_rod], [ux_begin_2_rod, ux_end_2_rod]...,[ux_begin_n_rod, ux_end_n_rod]]
-            '''
     if input_value_x >= 0:
         return answer_list[input_rod_number - 1]  
     else:

@@ -1,13 +1,5 @@
 import Chart from "chart.js/auto";
 
-//файл результатов расчета
-
-//анализ результатов расчета
-
-//отображение в табличном виде
-
-//графики
-
 const chartByType = {};
 const chartElByType = {};
 
@@ -29,6 +21,8 @@ const getLabels = (listOfWidth) => {
 export const buildChart = (chartType, chartData) => {
   const chart = chartByType[chartType];
 
+  let chartLabel = chartType.replace(/Chart$/, '');
+
   if (chart) {
     updateChart(chart, chartData);
   } else {
@@ -47,16 +41,22 @@ export const buildChart = (chartType, chartData) => {
         x: {
           title: {
             display: true,
-            text: `График ${chartType}`,
+            text: `ось X`,
           },
         },
         y: {
           title: {
             display: true,
-            text: `Значение ${chartType}`,
+            text: `ось Y`,
           },
         },
       },
+      plugins: {
+        title: {
+          display: true,
+          text: `Эпюра ${chartLabel}`, 
+        },
+      }
     });
   }
 };
@@ -88,7 +88,7 @@ const createChart = (chartType, chartData, chartOptions) => {
   chartByType[chartType] = new Chart(chartElByType[chartType], {
     type: "line", // Тип графика
     data: {
-      labels: getLabels(listOfWidth), // Значения оси X (listOfWidth)
+      labels: getLabels(listOfWidth), 
       datasets: getDataset(datasetData),
     },
     options: chartOptions,
